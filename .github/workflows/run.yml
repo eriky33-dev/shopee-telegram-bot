@@ -1,0 +1,28 @@
+name: Bot Shopee Telegram
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'   # roda a cada 3 horas
+  workflow_dispatch:       # permite rodar manualmente
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Executar bot
+        run: python bot.py
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
